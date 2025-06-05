@@ -1,5 +1,5 @@
 package ingredients;
 
 public interface Ingredient {
-	public String toString();
+    public String toString();
 }
