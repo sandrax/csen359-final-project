@@ -3,6 +3,7 @@ import java.util.List;
 import commands.*;
 import equipment.*;
 import equipment.diagnostics.MagicalStabilityVisitor;
+import ingredients.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -68,5 +69,38 @@ public class Main {
         for (Equipment e : equipment) {
             e.accept(magicalStabilityVisitor);
         }
+        
+        // test prototype
+        System.out.println("\n--- Gathering Some Materials ---\n");
+
+        Aconite a1 = new Aconite("root");
+		Aconite a2 = a1.geminio();
+		System.out.println("new aconite?: " + (a1 != a2));
+		
+		Mandrake m1 = new Mandrake();
+		Mandrake m2 = m1.geminio();
+		System.out.println("new mandrake?: " + (m1 != m2));
+		
+		OccamyEgg o1 = new OccamyEgg();
+		OccamyEgg o2 = o1.geminio();
+		System.out.println("new egg?: " + (o1 != o2));
+		
+		// test decorator (combined with prototype)
+		BasicIngredient i = new Powdered(new Moonstone());
+		System.out.println(i);
+		BasicIngredient i2 = i.geminio();
+		System.out.println("duplicate powdered? " + (i != i2));
+		
+		i = new Diced(new KidneyBean("red"));
+		System.out.println(i);
+		i2 = i.geminio();
+		System.out.println("duplicate diced? " + (i != i2));
+		
+		// test bridge
+		LiquidIngredient base = new DragonBlood(new Extract(), new Purify());
+		base.prepare();
+		
+		base = new HelleboreSyrup(new Extract(), new Purify());
+		base.prepare();
     }
 }
