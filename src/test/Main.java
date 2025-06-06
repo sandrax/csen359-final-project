@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package test;
+
 import java.util.List;
 
 import commands.*;
@@ -10,21 +11,13 @@ import teaching.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        // TODO: PUT ACTUAL SIMULATION HERE WHEN ALL PARTS ARE COMPLETE
-        // PUT DESIGN PATTERN SPECIFIC TESTS IN test/
-        // so its not as cluttered
-
-        // wand
         Wand wand = Wand.getInstance();
 
-        // equipment
         Burner burner = new Burner();
         Cauldron cauldron = new Cauldron();
         StirringRod rod = new StirringRod();
         Vial vial = new Vial();
 
-        // wand commands
         AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "aconite");
         AddIngredientCommand addPurifiedWater = new AddIngredientCommand(cauldron, "purified water");
         AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "diced kidney bean");
@@ -35,25 +28,46 @@ public class Main {
         StirCommand stirClockwise = new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5);
         FillVialCommand fillVial = new FillVialCommand(vial, "potion");
 
-        // equipment visitor
         List<Equipment> equipment = List.of(burner, cauldron, rod, vial);
         MagicalStabilityVisitor magicalStabilityVisitor = new MagicalStabilityVisitor();
 
-        // students
-        BasicStudent nevil = new BasicStudent("Neville", "Longbottom", "Gryffindor", 1, 64, 80, 95);
-        BasicStudent seamus = new BasicStudent("Seamus", "Finnigan", "Gryffindor", 2, 45, 67, 90);
-        BasicStudentCollection basicStudents = new BasicStudentCollection();
-        basicStudents.addStudent(nevil);
-        basicStudents.addStudent(seamus);
+        wand.setCommand(burnerLow);
+        wand.cast();
 
-        AdvancedStudent hermione = new AdvancedStudent("Hermione", "Granger", "Gryffindor", 4, 95, 90);
-        AdvancedStudent won = new AdvancedStudent("Won", "Reasely", "Slytherin", 4);
-        AdvancedStudentCollection advancedStudents = new AdvancedStudentCollection();
-        advancedStudents.addStudent(hermione);
-        advancedStudents.addStudent(won);
+        wand.setCommand(addNettles);
+        wand.cast();
 
+        wand.setCommand(addPurifiedWater);
+        wand.cast();
+
+        wand.setCommand(stirClockwise);
+        wand.cast();
+
+        wand.setCommand(burnerMed);
+        wand.cast();
+
+        wand.setCommand(addCrushedNewtEye);
+        wand.cast();
+
+        wand.setCommand(stirClockwise);
+        wand.cast();
+
+        wand.setCommand(burnerHigh);
+        wand.cast();
+
+        wand.setCommand(stirClockwise);
+        wand.cast();
+
+        wand.setCommand(fillVial);
+        wand.cast();
+
+        wand.setCommand(burnerOff);
+        wand.cast();
+
+        System.out.println("\n--- Potion Making Complete ---\n");
         System.out.println("Running magical stability diagnostics...\n");
 
+        // test visitor
         for (Equipment e : equipment) {
             e.accept(magicalStabilityVisitor);
         }
@@ -99,6 +113,7 @@ public class Main {
         Faculty dep = new DeputyHeadmaster();
         Faculty hm = new Headmaster();
 
+        Student won = new AdvancedStudent("Won", "Reasely", "Slytherin", 4);
         DisciplinaryReport report = new DisciplinaryReport(won, ReportLevel.MINOR);
         ghoh.handleReport(report);
         shoh.handleReport(report);
@@ -132,10 +147,5 @@ public class Main {
 
         report = new DisciplinaryReport(won, ReportLevel.UNCATEGORIZED);
         ghoh.handleReport(report);
-
-        // calculate grades
-        GradeCalculator grades = new GradeCalculator();
-        grades.calculateGrades(basicStudents);
-        grades.calculateGrades(advancedStudents);
     }
 }
