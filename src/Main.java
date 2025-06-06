@@ -28,7 +28,7 @@ public class Main {
         AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "aconite");
         AddIngredientCommand addPurifiedWater = new AddIngredientCommand(cauldron, "purified water");
         AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "diced kidney bean");
-        BurnerOffCommand burnerOff = new BurnerOffCommand(burner);
+        BurnerOffCommand burnerOff = new BurnerOffCommand(burner, cauldron);
         SetBurnerHeatCommand burnerLow = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.LOW);
         SetBurnerHeatCommand burnerMed = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.MEDIUM);
         SetBurnerHeatCommand burnerHigh = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.HIGH);
