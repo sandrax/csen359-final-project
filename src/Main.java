@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import commands.*;
@@ -16,9 +17,9 @@ public class Main {
         StirringRod rod = new StirringRod();
         Vial vial = new Vial();
 
-        AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "nettles");
+        AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "aconite");
         AddIngredientCommand addPurifiedWater = new AddIngredientCommand(cauldron, "purified water");
-        AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "crushed newt eye");
+        AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "diced kidney bean");
         BurnerOffCommand burnerOff = new BurnerOffCommand(burner);
         SetBurnerHeatCommand burnerLow = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.LOW);
         SetBurnerHeatCommand burnerMed = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.MEDIUM);
@@ -113,7 +114,7 @@ public class Main {
         Faculty dep = new DeputyHeadmaster();
         Faculty hm = new Headmaster();
 
-        Student won = new Student("Won", "Reasely", "Slytherin", 4);
+        Student won = new AdvancedStudent("Won", "Reasely", "Slytherin", 4);
         DisciplinaryReport report = new DisciplinaryReport(won, ReportLevel.MINOR);
         ghoh.handleReport(report);
         shoh.handleReport(report);
@@ -147,5 +148,17 @@ public class Main {
 
         report = new DisciplinaryReport(won, ReportLevel.UNCATEGORIZED);
         ghoh.handleReport(report);
+
+        // test iterator
+        BasicStudentCollection basicStudents = new BasicStudentCollection();
+        basicStudents.addStudent(new BasicStudent("Neville", "Longbottom", "Gryffindor", 1, 64, 80, 95));
+        basicStudents.addStudent(new BasicStudent("Seamus", "Finnigan", "Gryffindor", 2, 45, 67, 90));
+
+        AdvancedStudentCollection advancedStudents = new AdvancedStudentCollection();
+        advancedStudents.addStudent(new AdvancedStudent("Hermione", "Granger", "Gryffindor", 4, 95, 90));
+
+        GradeCalculator grades = new GradeCalculator();
+        grades.calculateGrades(basicStudents);
+        grades.calculateGrades(advancedStudents);
     }
 }
