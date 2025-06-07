@@ -12,8 +12,7 @@ public class ComplexInstruction implements PotionInstruction {
     }
 
     @Override
-    public void display() {
-        // Print the outermost title without a number
+    public void display() { // for the outermost title instruction
         System.out.println("--- " + description + " ---");
 
         for (int i = 0; i < steps.size(); i++) {

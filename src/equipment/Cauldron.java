@@ -67,6 +67,10 @@ public class Cauldron implements Equipment {
         return magicalStability;
     }
 
+    public void clean() {
+        System.out.println("Cauldron cleaned.");
+    }
+
     @Override
     public void accept(EquipmentVisitor visitor) {
         visitor.visit(this);

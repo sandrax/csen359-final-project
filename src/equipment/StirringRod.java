@@ -20,6 +20,10 @@ public class StirringRod implements Equipment{
         return magicalStability;
     }
 
+    public void sanitize() {
+        System.out.println("Stirring rod sanitized.");
+    }
+
     @Override
     public void accept(EquipmentVisitor visitor) {
          visitor.visit(this);

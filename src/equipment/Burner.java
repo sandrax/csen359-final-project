@@ -36,6 +36,10 @@ public class Burner implements Equipment {
         return magicalStability;
     }
 
+    public void ignite() {
+        System.out.println("Burner is ignited and ready to use.");
+    }
+
     @Override
     public void accept(EquipmentVisitor visitor) {
         visitor.visit(this);
