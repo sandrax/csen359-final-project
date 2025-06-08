@@ -1,5 +1,7 @@
 package teaching;
 
+import java.util.List;
+
 import equipment.Burner;
 import equipment.Cauldron;
 import equipment.StirringRod;
@@ -52,5 +54,26 @@ public class Professor {
         vial.unseal();
         System.out.println("Lab setup complete.\n");
     }
+    
+    public FullStudentCollection createRoster(List<Student> students) {
+        FullStudentCollection roster = new FullStudentCollection();
 
+        for (Student s : students) {
+            if (s instanceof BasicStudent bs) {
+                roster.addBasicStudent(bs);
+            } else if (s instanceof AdvancedStudent as) {
+                roster.addAdvancedStudent(as);
+            }
+        }
+        return roster;
+    }
+
+    public void addStudent(Student s, FullStudentCollection roster) {
+        if (s instanceof BasicStudent bs) {
+            roster.addBasicStudent(bs);
+        } else if (s instanceof AdvancedStudent as) {
+            roster.addAdvancedStudent(as);
+        }
+        System.out.println("Added " + s.getName() + " to the roster.");
+    }
 }

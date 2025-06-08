@@ -21,6 +21,14 @@ public abstract class Student {
         return this.firstName + " " + this.lastName;
     }
 
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
     public String getHouse() {
         return this.house;
     }
@@ -50,4 +58,9 @@ public abstract class Student {
     }
 
     public abstract double calculateGrade();
+
+    public String describe() {
+        return String.format("%s %s - %s, Year %d", firstName, lastName, house, year);
+    }
+
 }

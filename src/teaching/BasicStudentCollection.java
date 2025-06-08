@@ -16,4 +16,8 @@ public class BasicStudentCollection implements StudentCollection{
     public StudentIterator getIterator() {
         return new BasicStudentIterator(students);
     }
+
+    public String getType() {
+        return "Basic";
+    }
 }

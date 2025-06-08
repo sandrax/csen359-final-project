@@ -4,4 +4,5 @@ import teaching.iterator.StudentIterator;
 
 public interface StudentCollection {
     StudentIterator getIterator();
+    String getType();
 }

@@ -43,24 +43,24 @@ public class Main {
         // set up students
         BasicStudent nevil = new BasicStudent("Neville", "Longbottom", "Gryffindor", 1, 64, 80, 95);
         BasicStudent seamus = new BasicStudent("Seamus", "Finnigan", "Gryffindor", 2, 45, 67, 90);
-        BasicStudentCollection basicStudents = new BasicStudentCollection();
-        basicStudents.addStudent(nevil);
-        basicStudents.addStudent(seamus);
 
         AdvancedStudent hermione = new AdvancedStudent("Hermione", "Granger", "Gryffindor", 4, 95, 90);
         AdvancedStudent won = new AdvancedStudent("Won", "Reasely", "Slytherin", 4);
-        AdvancedStudentCollection advancedStudents = new AdvancedStudentCollection();
-        advancedStudents.addStudent(hermione);
-        advancedStudents.addStudent(won);
 
-        // set up the professor and TA
+        // set up the professor and roster
+        Professor professor = new Professor("Snape", burner, cauldron, rod, vial);
+        FullStudentCollection roster = professor.createRoster(List.of(nevil, seamus, hermione, won));
+        System.out.println(roster.toString());
 
+        // create a Student for the user and to the roster
+        // maybe it can ask for their name in the command line
+        professor.addStudent(new BasicStudent("Luna", "Lovegood", "Ravenclaw", 3), roster);
 
         // start the lesson
 
-        // make the potions with builder
+        // demo the potion building with builder
 
-        // store potions
+        // use wand commands to experiment with potion making
 
         System.out.println("Running magical stability diagnostics...\n");
 
@@ -145,7 +145,6 @@ public class Main {
 
         // calculate grades
         GradeCalculator grades = new GradeCalculator();
-        grades.calculateGrades(basicStudents);
-        grades.calculateGrades(advancedStudents);
+        grades.calculateGrades(roster);
     }
 }

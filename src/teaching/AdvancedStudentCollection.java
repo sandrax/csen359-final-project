@@ -15,4 +15,8 @@ public class AdvancedStudentCollection implements StudentCollection{
     public StudentIterator getIterator() {
         return new AdvancedStudentIterator(students);
     }
+
+    public String getType() {
+        return "Advanced";
+    }
 }
