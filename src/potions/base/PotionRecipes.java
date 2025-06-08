@@ -24,7 +24,7 @@ public class PotionRecipes {
 
     /**
      * Creates a standard healing potion with moderate potency.
-     * 
+     *
      * @param potionBuild the PotionBuilder obj
      * @return A new healing potion instance or NullPotion if creation fails
      */
@@ -57,7 +57,7 @@ public class PotionRecipes {
 
     /**
      * Creates a standard invisibility potion with high potency.
-     * 
+     *
      * @param potionBuild the PotionBuilder obj
      * @return A new invisibility potion instance or NullPotion if creation fails
      */
@@ -90,7 +90,7 @@ public class PotionRecipes {
 
     /**
      * Creates a standard poison potion with maximum potency.
-     * 
+     *
      * @param potionBuild the PotionBuilder obj
      * @return A new poison potion instance or NullPotion if creation fails
      */

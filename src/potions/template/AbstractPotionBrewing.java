@@ -1,7 +1,7 @@
 package potions.template;
 
-import potions.base.Potion;
-import equipment.Burner;
+import potions.base.*;
+import equipment.*;
 import ingredients.Ingredient;
 
 /**
@@ -10,59 +10,56 @@ import ingredients.Ingredient;
  * override specific steps.
  */
 public abstract class AbstractPotionBrewing {
-    protected final Potion potion;
+    protected Builder potionBuild;
+    protected Cauldron cauldron;
+    protected Burner burner;
+    protected StirringRod rod;
+    protected Vial vial;
+    protected Potion potion;
 
-    public AbstractPotionBrewing(Potion potion) {
-        if (potion == null) {
-            throw new IllegalArgumentException("Potion cannot be null");
-        }
-        this.potion = potion;
+    public AbstractPotionBrewing() {
+        this.potionBuild = new PotionBuilder();
+        this.cauldron = new Cauldron();
+        this.burner = new Burner();
+        this.rod = new StirringRod();
+        this.vial = new Vial();
+        this.potion = NullPotion.getInstance();
     }
 
-    // Template method - defines the brewing algorithm
-    public final void brew() {
+    // template method: defines the complete potion-making process
+    public Potion makePotion() {
         prepare();
-        addBaseIngredients();
-        addSpecialIngredients();
-        heat();
+        brew();
+        examine();
         stir();
-        complete();
+        store();
+        cleanup();
+        present();
+        return this.potion;
     }
 
-    // Required steps - must be implemented by subclasses
-    protected abstract void addBaseIngredients();
-    protected abstract void addSpecialIngredients();
-    protected abstract int getStirCount();
-    protected abstract Burner.HeatLevel getBrewingTemperature();
+    // abstract methods must be implemented by subclasses
+    protected abstract void brew();
+    protected abstract void stir();
+    protected abstract void store();
 
-    // Common steps with default implementation
+    // common methods
     protected void prepare() {
-        System.out.println("Preparing cauldron and tools...");
+        burner.ignite();
+        cauldron.heat(Burner.HeatLevel.LOW);
     }
 
-    protected void heat() {
-        System.out.println("Heating potion to " + getBrewingTemperature());
-        potion.heat(getBrewingTemperature());
+    protected void examine() {
+        System.out.println("The potion has turned " + potion.getColor());
     }
 
-    protected void stir() {
-        int stirCount = getStirCount();
-        System.out.println("Stirring potion " + stirCount + " times");
-        for (int i = 0; i < stirCount; i++) {
-            potion.stir(2); // Stir for 2 seconds each time
-        }
+    protected void cleanup() {
+        burner.setHeatLevel(Burner.HeatLevel.OFF);
+        rod.sanitize();
+        cauldron.clean();
     }
 
-    protected void complete() {
-        System.out.println("Completing brewing process");
-        potion.heat(Burner.HeatLevel.OFF);
-    }
-
-    // Helper method for subclasses
-    protected final void addIngredient(Ingredient ingredient) {
-        if (ingredient == null) {
-            throw new IllegalArgumentException("Ingredient cannot be null");
-        }
-        potion.addIngredient(ingredient);
+    protected void present() {
+        System.out.println(potion);
     }
 }

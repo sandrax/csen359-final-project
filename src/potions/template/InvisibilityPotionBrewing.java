@@ -1,8 +1,10 @@
 package potions.template;
 
-import potions.base.Potion;
+import potions.base.*;
+import potions.state.*;
 import ingredients.*;
-import equipment.Burner;
+import equipment.*;
+import equipment.StirringRod.Direction;
 
 /**
  * Concrete implementation of potion brewing for Invisibility Potions.
@@ -10,51 +12,29 @@ import equipment.Burner;
  */
 public class InvisibilityPotionBrewing extends AbstractPotionBrewing {
 
-    public InvisibilityPotionBrewing(Potion potion) {
-        super(potion);
+    public InvisibilityPotionBrewing() {
+        super();
     }
 
     @Override
-    protected void addBaseIngredients() {
-        System.out.println("Adding base invisibility ingredients...");
-        // Create powdered moonstone
-        BasicIngredient moonstone = new Moonstone();
-        Ingredient powderedMoonstone = new Powdered(moonstone);
-        addIngredient(powderedMoonstone);
-
-        // Add Hellebore syrup with liquid preparation
-        LiquidPrep extract = new Extract();
-        LiquidPrep purify = new Purify();
-        Ingredient helleboreSyrup = new HelleboreSyrup(extract, purify);
-        addIngredient(helleboreSyrup);
+    protected void brew() {
+        this.potion = new PotionRecipes().createInvisibilityPotion(potionBuild);
+        potionBuild.setState(new BrewingState());
     }
 
     @Override
-    protected void addSpecialIngredients() {
-        System.out.println("Adding special invisibility ingredients...");
-        // Add additional moonstone for enhanced invisibility effect
-        BasicIngredient moonstone = new Moonstone();
-        Ingredient powderedMoonstone = new Powdered(moonstone);
-        addIngredient(powderedMoonstone);
-
-        // Add dragon blood for stability
-        Ingredient dragonBlood = new DragonBlood(new Extract(), new Purify());
-        addIngredient(dragonBlood);
+    protected void stir() {
+        System.out.println("Needs additional stirring to increase potency...");
+        rod.stir(Direction.CLOCKWISE, 2);
+        rod.stir(Direction.COUNTERCLOCKWISE, 2);
+        this.potion.stir(2);
     }
 
     @Override
-    protected int getStirCount() {
-        return 4; // Each stir is counted twice, so 4 * 2 = 8 total stirs
-    }
-
-    @Override
-    protected Burner.HeatLevel getBrewingTemperature() {
-        return Burner.HeatLevel.HIGH; // High heat needed for transparency effect
-    }
-
-    @Override
-    protected void complete() {
-        System.out.println("Adding final invisibility enchantments...");
-        super.complete();
+    protected void store() {
+        System.out.println(this.potion.getName() + " must be stored warm.");
+        System.out.println("Cast FOCILLO on the vial.");
+        vial.fill(this.potion.getName());
+        vial.seal();
     }
 }

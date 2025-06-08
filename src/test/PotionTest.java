@@ -6,8 +6,7 @@ import potions.observer.BrewingLogObserver;
 import potions.observer.SafetyMonitorObserver;
 import potions.state.BrewingState;
 import potions.state.CompletedState;
-import potions.template.HealingPotionBrewing;
-import potions.template.InvisibilityPotionBrewing;
+import potions.template.*;
 import ingredients.*;
 import equipment.Burner;
 
@@ -81,51 +80,17 @@ public class PotionTest {
             System.out.println("\nTEST 3: Template Pattern");
             System.out.println("----------------------");
 
-            // Create a new potion using the template
-            Potion templatePotion = new PotionBuilder()
-                .setName("Template Healing Potion")
-                .setColor("red")
-                .setPotency(5)
-                .setBrewingTime(30)
-                .setTemperature(Burner.HeatLevel.OFF)
-                .addIngredient(new Mandrake())
-                .build();
+            System.out.println("\n ---------------------\n| INVISIBILITY POTION |\n ---------------------");
+            AbstractPotionBrewing demo = new InvisibilityPotionBrewing();
+            demo.makePotion();
 
-            // Add observers to template potion
-            templatePotion.addObserver(brewingLog);
-            templatePotion.addObserver(safetyMonitor);
+            System.out.println("\n ----------------\n| HEALING POTION |\n ----------------");
+            demo = new HealingPotionBrewing();
+            demo.makePotion();
 
-            // Use template to brew
-            System.out.println("\nBrewing potion using template pattern:");
-            HealingPotionBrewing healingTemplate = new HealingPotionBrewing(templatePotion);
-            healingTemplate.brew();
-
-            System.out.println("\nFinal template potion state: " + templatePotion);
-
-            // Test 4: Template Pattern - Invisibility Potion
-            System.out.println("\nTEST 4: Template Pattern - Invisibility Potion");
-            System.out.println("----------------------------------------");
-
-            // Create a new potion using the template
-            Potion invisibilityPotion = new PotionBuilder()
-                .setName("Invisibility Potion")
-                .setColor("transparent")
-                .setPotency(8)
-                .setBrewingTime(45)
-                .setTemperature(Burner.HeatLevel.OFF)
-                .addIngredient(new Mandrake())
-                .build();
-
-            // Add observers to invisibility potion
-            invisibilityPotion.addObserver(brewingLog);
-            invisibilityPotion.addObserver(safetyMonitor);
-
-            // Use template to brew
-            System.out.println("\nBrewing invisibility potion using template pattern:");
-            InvisibilityPotionBrewing invisibilityTemplate = new InvisibilityPotionBrewing(invisibilityPotion);
-            invisibilityTemplate.brew();
-
-            System.out.println("\nFinal invisibility potion state: " + invisibilityPotion);
+            System.out.println("\n ---------------\n| POISON POTION |\n ---------------");
+            demo = new PoisonPotionBrewing();
+            demo.makePotion();
 
             // Summary
             System.out.println("\n=== Test Summary ===");

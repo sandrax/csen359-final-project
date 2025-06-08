@@ -39,6 +39,7 @@ public class PotionBuilder implements Builder {
         if (ingredient == null) {
             throw new IllegalArgumentException("Ingredient cannot be null");
         }
+        System.out.println("Adding " + ingredient + "...");
         potion.addIngredient(ingredient);
         return this;
     }
@@ -47,6 +48,7 @@ public class PotionBuilder implements Builder {
         if (level == null) {
             throw new IllegalArgumentException("Temperature level cannot be null");
         }
+        System.out.println("Set heat to " + level + "...");
         potion.setTemperature(level);
         return this;
     }
@@ -55,6 +57,7 @@ public class PotionBuilder implements Builder {
         if (minutes <= 0) {
             throw new IllegalArgumentException("Brewing time must be positive");
         }
+        System.out.println("Brew for " + minutes + " minutes...");
         potion.setBrewingTime(minutes);
         return this;
     }
