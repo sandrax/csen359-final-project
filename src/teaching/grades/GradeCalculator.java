@@ -1,4 +1,4 @@
-package teaching;
+package teaching.grades;
 
 import teaching.iterator.StudentIterator;
 
