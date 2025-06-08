@@ -129,10 +129,10 @@ public class PotionTest {
 
             // Summary
             System.out.println("\n=== Test Summary ===");
-            System.out.println("✓ State Pattern: Successful state transitions and restrictions");
-            System.out.println("✓ Observer Pattern: Brewing logs and safety warnings generated");
-            System.out.println("✓ Memento Pattern: State successfully saved and restored");
-            System.out.println("✓ Template Pattern: Both Healing and Invisibility potions brewed successfully");
+            System.out.println("State Pattern: Successful state transitions and restrictions");
+            System.out.println("Observer Pattern: Brewing logs and safety warnings generated");
+            System.out.println("Memento Pattern: State successfully saved and restored");
+            System.out.println("Template Pattern: Both Healing and Invisibility potions brewed successfully");
 
         } catch (Exception e) {
             System.err.println("\nError during testing: " + e.getMessage());

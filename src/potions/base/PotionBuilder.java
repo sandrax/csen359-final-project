@@ -4,7 +4,7 @@ import ingredients.Ingredient;
 import equipment.Burner;
 import potions.state.PotionState;
 
-public class PotionBuilder {
+public class PotionBuilder implements Builder {
     private final Potion potion;
 
     public PotionBuilder() {

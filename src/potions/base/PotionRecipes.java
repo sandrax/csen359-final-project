@@ -1,10 +1,7 @@
-package potions.builder;
+package potions.base;
 
 import equipment.Burner;
 import ingredients.*;
-import potions.base.Potion;
-import potions.base.PotionBuilder;
-import potions.base.NullPotion;
 import potions.state.PreparationState;
 
 /**

@@ -12,18 +12,18 @@ public class SafetyMonitorObserver implements PotionObserver {
     public void onPotionStateChange(Potion potion) {
         // Check temperature safety
         if (potion.getTemperature() == Burner.HeatLevel.HIGH) {
-            System.out.println("⚠️ SAFETY WARNING: High temperature detected!");
+            System.out.println("!!!SAFETY WARNING!!!: High temperature detected!");
         }
 
         // Check ingredient count
         int ingredientCount = potion.getIngredients().size();
         if (ingredientCount > 5) {
-            System.out.println("⚠️ SAFETY WARNING: High number of ingredients (" + ingredientCount + ")");
+            System.out.println("️!!!SAFETY WARNING!!!: High number of ingredients (" + ingredientCount + ")");
         }
 
         // Check potency
         if (potion.getPotency() > 8) {
-            System.out.println("⚠️ SAFETY WARNING: High potency level detected!");
+            System.out.println("!!!SAFETY WARNING!!!: High potency level detected!");
         }
     }
 }
