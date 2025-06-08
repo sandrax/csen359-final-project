@@ -24,9 +24,11 @@ public class PotionRecipes {
 
     /**
      * Creates a standard healing potion with moderate potency.
+     * 
+     * @param potionBuild the PotionBuilder obj
      * @return A new healing potion instance or NullPotion if creation fails
      */
-    public static Potion createHealingPotion() {
+    public static Potion createHealingPotion(Builder potionBuild) {
         try {
             // Validate ingredients before creation
             BasicIngredient mandrake = new Mandrake();
@@ -37,7 +39,7 @@ public class PotionRecipes {
             Ingredient dicedMandrake = new Diced(mandrake);
             Ingredient dragonBlood = new DragonBlood(new Extract(), new Purify());
 
-            return new PotionBuilder()
+            return potionBuild
                 .setName("Healing Potion")
                 .addIngredient(dicedMandrake)
                 .addIngredient(dragonBlood)
@@ -55,9 +57,11 @@ public class PotionRecipes {
 
     /**
      * Creates a standard invisibility potion with high potency.
+     * 
+     * @param potionBuild the PotionBuilder obj
      * @return A new invisibility potion instance or NullPotion if creation fails
      */
-    public static Potion createInvisibilityPotion() {
+    public static Potion createInvisibilityPotion(Builder potionBuild) {
         try {
             // Validate ingredients before creation
             BasicIngredient moonstone = new Moonstone();
@@ -68,7 +72,7 @@ public class PotionRecipes {
             Ingredient powderedMoonstone = new Powdered(moonstone);
             Ingredient helleboreSyrup = new HelleboreSyrup(new Extract(), new Purify());
 
-            return new PotionBuilder()
+            return potionBuild
                 .setName("Invisibility Potion")
                 .addIngredient(powderedMoonstone)
                 .addIngredient(helleboreSyrup)
@@ -86,9 +90,11 @@ public class PotionRecipes {
 
     /**
      * Creates a standard poison potion with maximum potency.
+     * 
+     * @param potionBuild the PotionBuilder obj
      * @return A new poison potion instance or NullPotion if creation fails
      */
-    public static Potion createPoisonPotion() {
+    public static Potion createPoisonPotion(Builder potionBuild) {
         try {
             // Validate ingredients before creation
             BasicIngredient aconite = new Aconite("root");
@@ -118,6 +124,7 @@ public class PotionRecipes {
     /**
      * Creates a custom potion with specified parameters.
      *
+     * @param potionBuild the PotionBuilder obj
      * @param name The name of the potion
      * @param ingredients Array of ingredients to add
      * @param temp The temperature level for brewing
@@ -127,9 +134,8 @@ public class PotionRecipes {
      * @return A new custom potion instance or NullPotion if creation fails
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public static Potion createCustomPotion(String name, Ingredient[] ingredients,
-                                          Burner.HeatLevel temp, int time,
-                                          String color, int potency) {
+    public static Potion createCustomPotion(Builder potionBuild, String name, Ingredient[] ingredients,
+                                          Burner.HeatLevel temp, int time, String color, int potency) {
         // Validate input parameters
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Potion name cannot be null or empty");
@@ -162,20 +168,14 @@ public class PotionRecipes {
                 }
             }
 
-            PotionBuilder builder = new PotionBuilder()
-                .setName(name.trim())
-                .setTemperature(temp)
-                .setBrewingTime(time)
-                .setColor(color.trim())
-                .setPotency(potency)
-                .setState(new PreparationState());
+            potionBuild.setName(name.trim()).setTemperature(temp).setBrewingTime(time).setColor(color.trim()).setPotency(potency).setState(new PreparationState());
 
             // Add ingredients
             for (Ingredient ingredient : ingredients) {
-                builder.addIngredient(ingredient);
+                potionBuild.addIngredient(ingredient);
             }
 
-            return builder.build();
+            return potionBuild.build();
         } catch (Exception e) {
             System.out.println("Error creating custom potion: " + e.getMessage());
             return NullPotion.getInstance();
