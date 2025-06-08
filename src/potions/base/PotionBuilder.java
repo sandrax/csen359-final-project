@@ -8,12 +8,12 @@ public class PotionBuilder implements Builder {
     private final Potion potion;
 
     public PotionBuilder() {
-        this.potion = new Potion();
+        this.potion = new RealPotion();
     }
 
     // Copy constructor
     public PotionBuilder(Potion source) {
-        this.potion = new Potion();
+        this.potion = new RealPotion();
         if (source != null) {
             potion.setName(source.getName());
             for (Ingredient ingredient : source.getIngredients()) {

@@ -13,12 +13,11 @@ import java.util.List;
  * Represents an invalid or incomplete potion state.
  * This class is thread-safe and immutable.
  */
-public final class NullPotion extends Potion {
+public final class NullPotion implements Potion {
     private static final NullPotion instance = new NullPotion();
     private static final String ERROR_MESSAGE = "Operation not allowed on invalid potion";
 
     private NullPotion() {
-        super();
     }
 
     public static NullPotion getInstance() {
@@ -37,6 +36,11 @@ public final class NullPotion extends Potion {
 
     @Override
     public void stir(int duration) {
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
+    }
+
+    @Override
+    public void performStateStir(int duration) {
         throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
@@ -81,6 +85,26 @@ public final class NullPotion extends Potion {
     }
 
     @Override
+    public void setName(String name) {
+    }
+
+    @Override
+    public void setTemperature(Burner.HeatLevel level) {
+    }
+
+    @Override
+    public void setBrewingTime(int brewingTime) {
+    }
+
+    @Override
+    public void setColor(String color) {
+    }
+
+    @Override
+    public void setPotency(int potency) {
+    }
+
+    @Override
     public void setState(PotionState state) {
         throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
@@ -106,6 +130,10 @@ public final class NullPotion extends Potion {
     }
 
     @Override
+    public void notifyObservers() {
+    }
+
+    @Override
     public PotionMemento save() {
         throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
@@ -118,6 +146,11 @@ public final class NullPotion extends Potion {
     @Override
     public String toString() {
         return "NullPotion{Invalid or incomplete potion}";
+    }
+
+    @Override
+    public void setStateTemperature(Burner.HeatLevel level) {
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
