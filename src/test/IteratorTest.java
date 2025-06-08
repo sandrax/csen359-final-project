@@ -4,7 +4,7 @@ import teaching.AdvancedStudent;
 import teaching.AdvancedStudentCollection;
 import teaching.BasicStudent;
 import teaching.BasicStudentCollection;
-import teaching.GradeCalculator;
+import teaching.grades.GradeCalculator;
 
 public class IteratorTest {
     public static void main(String[] args) {

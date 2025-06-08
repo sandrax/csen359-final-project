@@ -7,6 +7,7 @@ import equipment.diagnostics.MagicalStabilityVisitor;
 import ingredients.*;
 import discipline.*;
 import teaching.*;
+import teaching.grades.GradeCalculator;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -15,16 +16,16 @@ public class Main {
         // PUT DESIGN PATTERN SPECIFIC TESTS IN test/
         // so its not as cluttered
 
-        // wand
+        // create the wand
         Wand wand = Wand.getInstance();
 
-        // equipment
+        // create the lab equipment
         Burner burner = new Burner();
         Cauldron cauldron = new Cauldron();
         StirringRod rod = new StirringRod();
         Vial vial = new Vial();
 
-        // wand commands
+        // set up wand commands
         AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "aconite");
         AddIngredientCommand addPurifiedWater = new AddIngredientCommand(cauldron, "purified water");
         AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "diced kidney bean");
@@ -35,11 +36,11 @@ public class Main {
         StirCommand stirClockwise = new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5);
         FillVialCommand fillVial = new FillVialCommand(vial, "potion");
 
-        // equipment visitor
+        // set up the equipment visitor
         List<Equipment> equipment = List.of(burner, cauldron, rod, vial);
         MagicalStabilityVisitor magicalStabilityVisitor = new MagicalStabilityVisitor();
 
-        // students
+        // set up students
         BasicStudent nevil = new BasicStudent("Neville", "Longbottom", "Gryffindor", 1, 64, 80, 95);
         BasicStudent seamus = new BasicStudent("Seamus", "Finnigan", "Gryffindor", 2, 45, 67, 90);
         BasicStudentCollection basicStudents = new BasicStudentCollection();
@@ -51,6 +52,15 @@ public class Main {
         AdvancedStudentCollection advancedStudents = new AdvancedStudentCollection();
         advancedStudents.addStudent(hermione);
         advancedStudents.addStudent(won);
+
+        // set up the professor and TA
+
+
+        // start the lesson
+
+        // make the potions with builder
+
+        // store potions
 
         System.out.println("Running magical stability diagnostics...\n");
 

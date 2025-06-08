@@ -10,7 +10,7 @@ import equipment.Burner;
  */
 public class InvisibilityPotionBrewing extends AbstractPotionBrewing {
 
-    public IvisibilityPotionBrewing(Potion potion) {
+    public InvisibilityPotionBrewing(Potion potion) {
         super(potion);
     }
 

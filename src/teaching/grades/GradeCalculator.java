@@ -1,5 +1,7 @@
 package teaching.grades;
 
+import teaching.Student;
+import teaching.StudentCollection;
 import teaching.iterator.StudentIterator;
 
 public class GradeCalculator {

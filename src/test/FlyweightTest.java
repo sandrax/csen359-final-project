@@ -1,3 +1,5 @@
+package test;
+
 import teaching.textbook.*;
 
 public class FlyweightTest {
