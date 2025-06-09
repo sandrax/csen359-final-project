@@ -2,5 +2,6 @@ package teaching;
 
 public enum LessonType {
     HEALING,
-    INVISIBILITY
+    INVISIBILITY,
+    POISON,
 }
