@@ -1,7 +1,7 @@
 package potions.template;
 
 import potions.base.*;
-import equipment.Burner;
+import potions.state.*;
 import ingredients.*;
 
 /**
@@ -16,6 +16,7 @@ public class HealingPotionBrewing extends AbstractPotionBrewing {
     @Override
     protected void brew() {
         this.potion = new PotionRecipes().createHealingPotion(potionBuild);
+        this.potion.setState(new BrewingState());
     }
 
     @Override
@@ -24,6 +25,7 @@ public class HealingPotionBrewing extends AbstractPotionBrewing {
 
     @Override
     protected void store() {
+        this.potion.setState(new CompletedState());
         vial.fill(this.potion.getName());
         vial.seal();
     }

@@ -323,7 +323,7 @@ public class RealPotion implements Potion {
 
         for (PotionObserver observer : observersCopy) {
             try {
-                observer.onPotionStateChange(this);
+                observer.onPotionStateChange();
             } catch (Exception e) {
                 System.err.println("Error notifying observer: " + e.getMessage());
                 // Continue notifying other observers even if one fails
@@ -377,9 +377,10 @@ public class RealPotion implements Potion {
     public String toString() {
         lock.readLock().lock();
         try {
-            return String.format("%s Potion (State: %s, Potency: %d, Stirs: %d/%d)",
+            return String.format("%s Potion (State: %s, Color: %s, Potency: %d, Stirs: %d/%d)",
                 name != null ? name : "Unnamed",
                 state != null ? state.getStateName() : "No State",
+                color,
                 potency,
                 stirCount,
                 MAX_STIR_COUNT);

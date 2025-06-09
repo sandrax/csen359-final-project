@@ -1,6 +1,7 @@
 package potions.template;
 
 import potions.base.*;
+import potions.state.*;
 import equipment.*;
 import ingredients.Ingredient;
 

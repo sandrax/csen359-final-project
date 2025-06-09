@@ -153,7 +153,7 @@ public final class PotionMemento {
 
     @Override
     public String toString() {
-        return String.format("Snapshot [%s] %s - State: %s, Ingredients: %d, Stirs: %d",
-            timestamp, name, state.getStateName(), ingredients.size(), stirCount);
+        return String.format("Snapshot [%s] %s - State: %s, Ingredients: %d, Stirs: %d, Color: %s, Potency: %d",
+            timestamp, name, state.getStateName(), ingredients.size(), stirCount, color, potency);
     }
 }

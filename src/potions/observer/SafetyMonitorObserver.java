@@ -8,8 +8,15 @@ import equipment.Burner;
  * Thread-safe implementation for concurrent brewing operations.
  */
 public class SafetyMonitorObserver implements PotionObserver {
+    private Potion potion;
+
+    public SafetyMonitorObserver(Potion potion) {
+        this.potion = potion;
+        potion.addObserver(this);
+    }
+
     @Override
-    public void onPotionStateChange(Potion potion) {
+    public void onPotionStateChange() {
         // Check temperature safety
         if (potion.getTemperature() == Burner.HeatLevel.HIGH) {
             System.out.println("!!!SAFETY WARNING!!!: High temperature detected!");

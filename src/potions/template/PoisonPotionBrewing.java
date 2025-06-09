@@ -1,7 +1,7 @@
 package potions.template;
 
 import potions.base.*;
-import equipment.Burner;
+import potions.state.*;
 import ingredients.*;
 
 /**
@@ -16,6 +16,7 @@ public class PoisonPotionBrewing extends AbstractPotionBrewing {
     @Override
     protected void brew() {
         this.potion = new PotionRecipes().createPoisonPotion(potionBuild);
+        this.potion.setState(new BrewingState());
     }
 
     @Override
@@ -24,6 +25,7 @@ public class PoisonPotionBrewing extends AbstractPotionBrewing {
 
     @Override
     protected void store() {
+        this.potion.setState(new CompletedState());
         System.out.println(this.potion.getName() + " must be stored cold.");
         System.out.println("Cast INFRIGIDO on the vial and cauldron.");
         vial.fill(this.potion.getName());

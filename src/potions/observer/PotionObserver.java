@@ -13,5 +13,5 @@ public interface PotionObserver {
      * @param potion The potion that changed state
      * @throws IllegalArgumentException if the potion is null
      */
-    void onPotionStateChange(Potion potion);
+    void onPotionStateChange();
 }

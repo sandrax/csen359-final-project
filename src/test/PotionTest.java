@@ -2,10 +2,9 @@ package test;
 
 import potions.base.Potion;
 import potions.base.PotionBuilder;
-import potions.observer.BrewingLogObserver;
-import potions.observer.SafetyMonitorObserver;
-import potions.state.BrewingState;
-import potions.state.CompletedState;
+import potions.observer.*;
+import potions.state.*;
+import potions.memento.*;
 import potions.template.*;
 import ingredients.*;
 import equipment.Burner;
@@ -19,37 +18,33 @@ public class PotionTest {
             System.out.println("TEST 1: State Pattern & Observer Pattern");
             System.out.println("----------------------------------------");
 
-            // Create observers
-            BrewingLogObserver brewingLog = new BrewingLogObserver();
-            SafetyMonitorObserver safetyMonitor = new SafetyMonitorObserver();
-
-            // Create a healing potion
-            Potion healingPotion = new PotionBuilder()
-                .setName("Healing Potion")
+            // make some potion
+            Potion somePotion = new PotionBuilder()
+                .setName("Random Potion")
                 .setColor("red")
                 .setPotency(5)
                 .setBrewingTime(30)
                 .setTemperature(Burner.HeatLevel.OFF)
                 .addIngredient(new Mandrake())
                 .build();
-
-            // Add observers
-            healingPotion.addObserver(brewingLog);
-            healingPotion.addObserver(safetyMonitor);
+            
+            // make observers
+            BrewingLogObserver brewingLog = new BrewingLogObserver(somePotion);
+            SafetyMonitorObserver safetyMonitor = new SafetyMonitorObserver(somePotion);
 
             // Test state transitions
             System.out.println("\nTesting state transitions:");
-            healingPotion.addIngredient(new DragonBlood(new Extract(), new Purify()));
-            healingPotion.heat(Burner.HeatLevel.MEDIUM);
-            healingPotion.stir(3);
-            healingPotion.heat(Burner.HeatLevel.HIGH);
-            healingPotion.stir(2);
-            healingPotion.heat(Burner.HeatLevel.OFF);
+            somePotion.addIngredient(new DragonBlood(new Extract(), new Purify()));
+            somePotion.heat(Burner.HeatLevel.MEDIUM);
+            somePotion.stir(3);
+            somePotion.heat(Burner.HeatLevel.HIGH);
+            somePotion.stir(2);
+            somePotion.heat(Burner.HeatLevel.OFF);
 
             // Test completed state restrictions
             System.out.println("\nTesting completed state restrictions:");
             try {
-                healingPotion.stir(1);
+                somePotion.stir(1);
             } catch (IllegalStateException e) {
                 System.out.println("Success: " + e.getMessage());
             }
@@ -58,23 +53,30 @@ public class PotionTest {
             System.out.println("\nTEST 2: Memento Pattern");
             System.out.println("----------------------");
 
-            // Save state
-            var memento = healingPotion.save();
-            System.out.println("Saved potion state: " + healingPotion);
-
-            // Create new potion and restore
+            // make a new potion and save states
             Potion newPotion = new PotionBuilder()
-                .setName("Empty Potion")
-                .setColor("clear")
-                .setPotency(1)
-                .setBrewingTime(10)
-                .setTemperature(Burner.HeatLevel.OFF)
-                .addIngredient(new Mandrake())
+                .setName("Experimental Potion")
+                .setColor("green")
+                .setPotency(3)
+                .setBrewingTime(25)
+                .setTemperature(Burner.HeatLevel.LOW)
+                .addIngredient(new Aconite("leaf"))
                 .build();
 
-            newPotion.restore(memento);
-            System.out.println("Restored potion state: " + newPotion);
-            System.out.println("States match: " + healingPotion.toString().equals(newPotion.toString()));
+            PotionCaretaker spell = new PotionCaretaker();
+            spell.saveState(newPotion.save());
+            System.out.println("Curent potion state:\n" + newPotion);
+
+            // do stuff
+            newPotion.addIngredient(new OccamyEgg());
+            newPotion.heat(Burner.HeatLevel.HIGH);
+            newPotion.stir(1);
+            newPotion.setColor("vomit");
+            newPotion.setPotency(10);
+            System.out.println("Updated potion state:\n" + newPotion);
+
+            newPotion.restore(spell.goBack());
+            System.out.println("Restored potion state:\n" + newPotion);
 
             // Test 3: Template Pattern
             System.out.println("\nTEST 3: Template Pattern");

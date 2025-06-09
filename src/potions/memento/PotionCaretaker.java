@@ -21,12 +21,12 @@ public class PotionCaretaker {
     /**
      * Saves the current state of the potion.
      *
-     * @param potion The potion whose state to save
+     * @param memento The potion whose state to save
      * @throws IllegalArgumentException if potion is null or invalid
      */
-    public void saveState(Potion potion) {
-        if (potion == null || potion instanceof NullPotion) {
-            throw new IllegalArgumentException("Cannot save state of null or invalid potion");
+    public void saveState(PotionMemento memento) {
+        if (memento == null) {
+            throw new IllegalArgumentException("No memento provided to save.");
         }
 
         // Remove oldest state if we exceed max size
@@ -34,40 +34,22 @@ public class PotionCaretaker {
             history.removeLast();
         }
 
-        // Save new state
-        PotionMemento memento = potion.save();
-        if (memento != null) {
-            history.addFirst(memento);
-            System.out.println("Saved potion state: " + memento);
-        } else {
-            System.out.println("Failed to save potion state");
-        }
+        System.out.println("Saving potion state:\n" + memento);
+        history.addFirst(memento);
     }
 
     /**
      * Restores the potion to its previous state.
      *
-     * @param potion The potion to restore
      * @throws IllegalArgumentException if potion is null or invalid
      */
-    public void undo(Potion potion) {
-        if (potion == null || potion instanceof NullPotion) {
-            throw new IllegalArgumentException("Cannot restore state to null or invalid potion");
-        }
-
+    public PotionMemento goBack() {
         if (history.isEmpty()) {
             System.out.println("No previous states to restore!");
-            return;
+            return null;
         }
-
-        // Get and remove the most recent state
-        PotionMemento memento = history.removeFirst();
-        if (memento != null) {
-            potion.restore(memento);
-            System.out.println("Restored potion to previous state: " + memento);
-        } else {
-            System.out.println("Failed to restore potion state");
-        }
+        
+        return history.removeFirst();
     }
 
     /**

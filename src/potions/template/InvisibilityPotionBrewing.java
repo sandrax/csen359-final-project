@@ -19,7 +19,7 @@ public class InvisibilityPotionBrewing extends AbstractPotionBrewing {
     @Override
     protected void brew() {
         this.potion = new PotionRecipes().createInvisibilityPotion(potionBuild);
-        potionBuild.setState(new BrewingState());
+        this.potion.setState(new BrewingState());
     }
 
     @Override
@@ -32,6 +32,7 @@ public class InvisibilityPotionBrewing extends AbstractPotionBrewing {
 
     @Override
     protected void store() {
+        this.potion.setState(new CompletedState());
         System.out.println(this.potion.getName() + " must be stored warm.");
         System.out.println("Cast FOCILLO on the vial.");
         vial.fill(this.potion.getName());
