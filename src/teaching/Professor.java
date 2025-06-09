@@ -47,6 +47,7 @@ public class Professor {
         // more sense for the demo
         System.out.println("Lesson ready. Professor " + name + " begins teaching.");
         demoPotion(lessonType);
+        System.out.println("Lesson complete.");
     }
 
     public void readInstructions(LessonType lessonType) {

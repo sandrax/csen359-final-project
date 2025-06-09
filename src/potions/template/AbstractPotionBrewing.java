@@ -46,7 +46,6 @@ public abstract class AbstractPotionBrewing {
 
     // common methods
     protected void prepare() {
-        burner.ignite();
         cauldron.heat(Burner.HeatLevel.LOW);
     }
 

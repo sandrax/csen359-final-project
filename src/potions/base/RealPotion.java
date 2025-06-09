@@ -367,6 +367,7 @@ public class RealPotion implements Potion {
             this.potency = memento.getPotency();
             this.state = memento.getState();
             this.stirCount = memento.getStirCount();
+            System.out.println("Restoring potion...");
             notifyObservers();
         } finally {
             lock.writeLock().unlock();

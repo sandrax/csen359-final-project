@@ -30,19 +30,17 @@ public class PotionRecipes {
      */
     public static Potion createHealingPotion(Builder potionBuild) {
         try {
-            // Validate ingredients before creation
-            BasicIngredient mandrake = new Mandrake();
-            if (!(mandrake instanceof Mandrake)) {
-                throw new IllegalStateException("Invalid mandrake ingredient");
-            }
-
-            Ingredient dicedMandrake = new Diced(mandrake);
+            Ingredient dicedMandrake = new Diced(new Mandrake());
             Ingredient dragonBlood = new DragonBlood(new Extract(), new Purify());
+            Ingredient moonstone = new Powdered(new Moonstone());
+            Ingredient syrup = new HelleboreSyrup(new Extract(), new Purify());
 
             return potionBuild
                 .setName("Healing Potion")
                 .addIngredient(dicedMandrake)
                 .addIngredient(dragonBlood)
+                .addIngredient(moonstone)
+                .addIngredient(syrup)
                 .setTemperature(Burner.HeatLevel.MEDIUM)
                 .setBrewingTime(HEALING_BREW_TIME)
                 .setColor(HEALING_COLOR)

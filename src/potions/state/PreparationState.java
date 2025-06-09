@@ -20,7 +20,7 @@ public final class PreparationState implements PotionState {
         }
 
         // In preparation state, we can always add ingredients
-        System.out.println("Adding " + ingredient + " to the potion in preparation state.");
+        System.out.println("The " + ingredient + " has mixed with the potion being prepared.");
     }
 
     @Override

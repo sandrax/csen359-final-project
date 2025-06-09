@@ -12,6 +12,7 @@ public class Wand {
         if (instance == null) {
             instance = new Wand();
         }
+        System.out.println("Grabbing wand...");
         return instance;
     }
 

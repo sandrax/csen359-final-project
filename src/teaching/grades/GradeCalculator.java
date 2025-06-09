@@ -7,7 +7,7 @@ import teaching.iterator.StudentIterator;
 
 public class GradeCalculator {
     public void calculateGrades(StudentCollection studentCollection) {
-        System.out.println("--- " + studentCollection.getType() + " Student Grades ---" );
+        System.out.println("\n--- " + studentCollection.getType() + " Student Grades ---" );
         StudentIterator iterator = studentCollection.getIterator();
         while (iterator.hasNext()) {
             Student s = iterator.next();
@@ -16,7 +16,7 @@ public class GradeCalculator {
     }
 
     public void calculateGrades(FullStudentCollection roster) {
-        System.out.println("--- Student Grade Report ---");
+        System.out.println("\n ----------------------\n| Student Grade Report |\n ----------------------");
         calculateGrades(roster.getBasicStudents());
         calculateGrades(roster.getAdvancedStudents());
     }

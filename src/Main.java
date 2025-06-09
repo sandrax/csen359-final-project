@@ -5,146 +5,244 @@ import commands.*;
 import equipment.*;
 import equipment.diagnostics.MagicalStabilityVisitor;
 import ingredients.*;
+import potions.base.*;
+import potions.memento.*;
+import potions.observer.*;
+import potions.state.*;
 import discipline.*;
 import teaching.*;
-import teaching.grades.GradeCalculator;
+import teaching.grades.*;
+import teaching.textbook.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        
+        // -------- SETUP --------
+        
+        // other
+        Scanner scanner = new Scanner(System.in);
 
-        // TODO: PUT ACTUAL SIMULATION HERE WHEN ALL PARTS ARE COMPLETE
-        // PUT DESIGN PATTERN SPECIFIC TESTS IN test/
-        // so its not as cluttered
+        // bookstore
+        TextbookFactory flourishAndBlotts = new TextbookFactory();
+        
+        // grading portal
+        RealGradingDatabase db = RealGradingDatabase.getInstance();
+        GradingDatabase studentPortal = new StudentPortal(db);
+        
+        // other faculty
+        Faculty gryffHOH = new HeadOfHouse("Gryffindor");
+        Faculty slythHOH = new HeadOfHouse("Slytherin");
+        Faculty huffHOH = new HeadOfHouse("Hufflepuff");
+        Faculty ravHOH = new HeadOfHouse("Ravenclaw");
+        Faculty deputyHeadmaster = new DeputyHeadmaster();
+        Faculty headmaster = new Headmaster();
+        gryffHOH.setSuperior(deputyHeadmaster);
+        slythHOH.setSuperior(deputyHeadmaster);
+        huffHOH.setSuperior(deputyHeadmaster);
+        ravHOH.setSuperior(deputyHeadmaster);
+        deputyHeadmaster.setSuperior(headmaster);
 
-        // create the wand
-        Wand wand = Wand.getInstance();
-
-        // create the lab equipment
+        // lab equipment
         Burner burner = new Burner();
         Cauldron cauldron = new Cauldron();
         StirringRod rod = new StirringRod();
         Vial vial = new Vial();
-
-        // set up wand commands
-        AddIngredientCommand addNettles = new AddIngredientCommand(cauldron, "aconite");
-        AddIngredientCommand addPurifiedWater = new AddIngredientCommand(cauldron, "purified water");
-        AddIngredientCommand addCrushedNewtEye = new AddIngredientCommand(cauldron, "diced kidney bean");
-        BurnerOffCommand burnerOff = new BurnerOffCommand(burner, cauldron);
-        SetBurnerHeatCommand burnerLow = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.LOW);
-        SetBurnerHeatCommand burnerMed = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.MEDIUM);
-        SetBurnerHeatCommand burnerHigh = new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.HIGH);
-        StirCommand stirClockwise = new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5);
-        FillVialCommand fillVial = new FillVialCommand(vial, "potion");
-
-        // set up the equipment visitor
         List<Equipment> equipment = List.of(burner, cauldron, rod, vial);
         MagicalStabilityVisitor magicalStabilityVisitor = new MagicalStabilityVisitor();
-
-        // set up students
-        BasicStudent nevil = new BasicStudent("Neville", "Longbottom", "Gryffindor", 1, 64, 80, 95);
-        BasicStudent seamus = new BasicStudent("Seamus", "Finnigan", "Gryffindor", 2, 45, 67, 90);
-
-        AdvancedStudent hermione = new AdvancedStudent("Hermione", "Granger", "Gryffindor", 4, 95, 90);
-        AdvancedStudent won = new AdvancedStudent("Won", "Reasely", "Slytherin", 4);
-
-        // set up the professor and roster
+        
+        // professor & class
         Professor professor = new Professor("Snape", burner, cauldron, rod, vial);
+        
+        BasicStudent nevil = new BasicStudent("Neville", "Longbottom", "Gryffindor", 3, 64, 70, 75);
+        BasicStudent seamus = new BasicStudent("Hannah", "Abbott", "Hufflepuff", 3, 45, 97, 98);
+        AdvancedStudent hermione = new AdvancedStudent("Hermione", "Granger", "Gryffindor", 3, 95, 90);
+        AdvancedStudent won = new AdvancedStudent("Draco", "Malfoy", "Slytherin", 3, 100, 87);
+        
         FullStudentCollection roster = professor.createRoster(List.of(nevil, seamus, hermione, won));
-        System.out.println(roster.toString());
-
-        // create a Student for the user and to the roster
-        // maybe it can ask for their name in the command line
-        professor.addStudent(new BasicStudent("Luna", "Lovegood", "Ravenclaw", 3), roster);
-
-        // start the lesson
-
-        // demo the potion building with builder
-
-        // use wand commands to experiment with potion making
-
-        System.out.println("Running magical stability diagnostics...\n");
-
+        System.out.println(" ----------------\n| Current Roster |\n ----------------\n\n" + roster.toString());
+        
+        
+        // --- JOIN THE CLASS ---
+        System.out.print("[Sign up for Professor Snape's After-Class Lessons!]\nEnter your first name: ");
+        String firstName = scanner.nextLine();
+        System.out.print("Enter your last name: ");
+        String lastName = scanner.nextLine();
+        System.out.print("Enter your house: ");
+        String house = scanner.nextLine();
+        System.out.print("Enter your year: ");
+        int year = scanner.nextInt();
+        
+        // useage of: Singleton, Flyweight
+        BasicStudent you = new BasicStudent(firstName, lastName, house, year);
+        Wand wand = Wand.getInstance();
+        Textbook book = flourishAndBlotts.getBook("potion", "Basic Potion-Making", "L. Borage");
+        book.assign(firstName);
+        
+        
+        // --- STARTING CLASS ---
+        System.out.println("\n[All set! Let's begin!]\n");
+        
+        // usage of: Facade, Composite, Template, Null
+        professor.conductLesson(LessonType.HEALING);
+        
+        
+        // --- MAKE A POTION ---
+        System.out.println("\n[Your turn now! Let's make this potion.]\n");
+        
+        // usage of: Command
+        wand.setCommand(new BurnerOffCommand(burner, cauldron));
+        wand.cast();
+        System.out.print("\n");
+        
+        // usage of: Visitor
+        System.out.println("[Running magical stability diagnostics...]");
         for (Equipment e : equipment) {
             e.accept(magicalStabilityVisitor);
         }
+        System.out.print("\n[Equipment is good to use!]\n\n");
+        
+        // usage of: Decorator, Builder
+        BasicIngredient ingredient = new Diced(new Mandrake());
+        wand.setCommand(new AddIngredientCommand(cauldron, ingredient.toString()));
+        wand.cast();
+        System.out.print("\n");
+        
+        Potion potion = new PotionBuilder()
+                .setName("Healing Potion Attempt")
+                .setColor("light green")
+                .setTemperature(Burner.HeatLevel.LOW)
+                .addIngredient(ingredient)
+                .setBrewingTime(30)
+                .build();
+        
+        // usage of: Observer, Memento
+        System.out.print("\n[Set up some failsafes!\n");
+        BrewingLogObserver brewingLog = new BrewingLogObserver(potion);
+        SafetyMonitorObserver safetyMonitor = new SafetyMonitorObserver(potion);
+        PotionCaretaker potionLog = new PotionCaretaker();
+        potionLog.saveState(potion.save());
+        
+        // usage of: Prototype, Bridge
+        ingredient = ingredient.geminio();
+        wand.setCommand(new AddIngredientCommand(cauldron, ingredient.toString()));
+        wand.cast();
+        potion.addIngredient(ingredient);
+        System.out.print("\n");
+        
+        LiquidIngredient liquid = new DragonBlood(new Extract(), new Purify());
+        liquid.prepare();
+        System.out.print("\n");
+        wand.setCommand(new AddIngredientCommand(cauldron, liquid.toString()));
+        wand.cast();
+        Thread.sleep(1000);
+        potion.addIngredient(liquid);
+        System.out.print("\n");
+        potion.setColor("clear");
+        System.out.print("\n");
+        potionLog.saveState(potion.save());
+        System.out.print("\n");
+        
+        ingredient = new Powdered(new Moonstone());
+        wand.setCommand(new AddIngredientCommand(cauldron, ingredient.toString()));
+        wand.cast();
+        potion.addIngredient(ingredient);
+        System.out.print("\n");
+        
+        liquid = new HelleboreSyrup(new Extract(), new Purify());
+        liquid.prepare();
+        System.out.print("\n");
+        wand.setCommand(new AddIngredientCommand(cauldron, liquid.toString()));
+        wand.cast();
+        Thread.sleep(1000);
+        potion.addIngredient(liquid);
+        System.out.print("\n");
+        
+        potion.setColor("orange");
+        System.out.print("\n");
+        potionLog.saveState(potion.save());
+        System.out.print("\n");
+        
+        
+        // --- MAKING A MISTAKE ---
+        wand.setCommand(new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.HIGH));
+        wand.cast();
+        System.out.print("\n");
+        potion.setTemperature(Burner.HeatLevel.HIGH);
+        System.out.print("\n");
+        
+        // usage of: Memento
+        System.out.println("\n[That's too hot! Luckily you preserved the state beforehand.]\n");
+        potion.restore(potionLog.goBack());
+        System.out.print("\n");
+        
+        // usage of: Chain of Responsibility
+        System.out.println("\n[Looks like Draco reported you for causing a ruckus...]");
+        DisciplinaryReport report = new DisciplinaryReport(you, ReportLevel.MINOR);
+        slythHOH.handleReport(report);
+        System.out.print("\n");
+        
+        
+        // --- CONTINUE POTION MAKING ---
+        System.out.println("[Oh well. Let's continue.]\n");
+        wand.setCommand(new SetBurnerHeatCommand(burner, cauldron, Burner.HeatLevel.MEDIUM));
+        wand.cast();
+        System.out.print("\n");
+        potion.setTemperature(Burner.HeatLevel.MEDIUM);
+        potion.setState(new BrewingState());
+        System.out.print("\n");
 
-        // test prototype
-        System.out.println("\n--- Gathering Ingredients ---\n");
+        wand.setCommand(new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5));
+        wand.cast();
+        potion.stir(5);
+        wand.setCommand(new StirCommand(rod, StirringRod.Direction.COUNTERCLOCKWISE, 5));
+        wand.cast();
+        potion.stir(5);
+        wand.setCommand(new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5));
+        wand.cast();
+        potion.stir(5);
+        wand.setCommand(new StirCommand(rod, StirringRod.Direction.COUNTERCLOCKWISE, 5));
+        wand.cast();
+        potion.stir(5);
+        wand.setCommand(new StirCommand(rod, StirringRod.Direction.CLOCKWISE, 5));
+        wand.cast();
+        potion.stir(5);
+        System.out.print("\n");
 
-        Aconite a1 = new Aconite("root");
-        Aconite a2 = a1.geminio();
-        System.out.println("new aconite?: " + (a1 != a2));
+        
+        // --- WRAP UP ---
+        System.out.println("\n[All done! Wrap up and turn it in!]\n");
+        wand.setCommand(new BurnerOffCommand(burner, cauldron));
+        wand.cast();
+        System.out.print("\n");
+        wand.setCommand(new FillVialCommand(vial, potion.getName()));
+        wand.cast();
+        
+        
+        // --- FINAL GRADE ---
+        System.out.println("\n[Snape will add your grade to the roster...]\n");
+        you.setParticipationScore(100);
+        you.setStabilityScore(43);
+        you.setPotionComplexity(89);
+        professor.addStudent(you, roster);
+        
+        // usage of: Iterator, Proxy
+        GradeCalculator grades = new GradeCalculator();
+        grades.calculateGrades(roster);
+        
+        professor.assignGrade("28741", firstName, "Potions", 83.00);
+        
+        /**
 
-        Mandrake m1 = new Mandrake();
-        Mandrake m2 = m1.geminio();
-        System.out.println("new mandrake?: " + (m1 != m2));
 
-        OccamyEgg o1 = new OccamyEgg();
-        OccamyEgg o2 = o1.geminio();
-        System.out.println("new egg?: " + (o1 != o2));
 
-        // test decorator (combined with prototype)
-        BasicIngredient i = new Powdered(new Moonstone());
-        System.out.println(i);
-        BasicIngredient i2 = i.geminio();
-        System.out.println("duplicate powdered? " + (i != i2));
 
-        i = new Diced(new KidneyBean("red"));
-        System.out.println(i);
-        i2 = i.geminio();
-        System.out.println("duplicate diced? " + (i != i2));
 
-        // test bridge
-        LiquidIngredient base = new DragonBlood(new Extract(), new Purify());
-        base.prepare();
 
-        base = new HelleboreSyrup(new Extract(), new Purify());
-        base.prepare();
-
-        // test chain of responsibility
-        System.out.println("\n--- Filing a Disciplinary Report ---\n");
-
-        Faculty ghoh = new HeadOfHouse("Gryffindor");
-        Faculty shoh = new HeadOfHouse("Slytherin");
-        Faculty dep = new DeputyHeadmaster();
-        Faculty hm = new Headmaster();
-
-        DisciplinaryReport report = new DisciplinaryReport(won, ReportLevel.MINOR);
-        ghoh.handleReport(report);
-        shoh.handleReport(report);
-
-        System.out.println("---------");
-
-        report = new DisciplinaryReport(won, ReportLevel.MAJOR);
-        ghoh.handleReport(report);
-
-        System.out.println("---------");
-
-        ghoh.setSuperior(dep);
-        ghoh.handleReport(report);
-
-        System.out.println("---------");
-
-        report = new DisciplinaryReport(won, ReportLevel.SEVERE);
-        ghoh.handleReport(report);
-
-        System.out.println("---------");
-
-        dep.setSuperior(hm);
-        dep.handleReport(report);
-
-        System.out.println("---------");
-
-        report = new DisciplinaryReport(won, ReportLevel.ILLEGAL);
-        ghoh.handleReport(report);
-
-        System.out.println("---------");
-
-        report = new DisciplinaryReport(won, ReportLevel.UNCATEGORIZED);
-        ghoh.handleReport(report);
 
         // calculate grades
         GradeCalculator grades = new GradeCalculator();
         grades.calculateGrades(roster);
+        */
     }
 }

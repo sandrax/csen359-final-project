@@ -39,7 +39,7 @@ public class PotionBuilder implements Builder {
         if (ingredient == null) {
             throw new IllegalArgumentException("Ingredient cannot be null");
         }
-        System.out.println("Adding " + ingredient + "...");
+        System.out.println("The potion has " + ingredient);
         potion.addIngredient(ingredient);
         return this;
     }
