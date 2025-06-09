@@ -36,7 +36,7 @@ public class Professor {
         this.cauldron = cauldron;
         this.rod = rod;
         this.vial = vial;
-        this.gradingPortal = new StaffPortal(new RealGradingDatabase());
+        this.gradingPortal = new StaffPortal(RealGradingDatabase.getInstance());
     }
 
     public void conductLesson(LessonType lessonType) {

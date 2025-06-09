@@ -6,8 +6,19 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class RealGradingDatabase implements GradingDatabase {
+    private static RealGradingDatabase instance;
+
     private Set<String> students = new HashSet<>();
     private Map<GradeEntry, Double> grades = new HashMap<>();
+
+    private RealGradingDatabase() {}
+
+    public static synchronized RealGradingDatabase getInstance() {
+        if (instance == null) {
+            instance = new RealGradingDatabase();
+        }
+        return instance;
+    }
 
     @Override
     public void setGrade(String pwd, String student, String course, double grade) {

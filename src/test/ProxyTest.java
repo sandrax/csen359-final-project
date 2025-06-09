@@ -4,7 +4,7 @@ import teaching.grades.*;
 
 public class ProxyTest {
     public static void main(String[] args) {
-        RealGradingDatabase db = new RealGradingDatabase();
+        RealGradingDatabase db = RealGradingDatabase.getInstance();
 
         GradingDatabase staff = new StaffPortal(db);
         GradingDatabase student = new StudentPortal(db);
