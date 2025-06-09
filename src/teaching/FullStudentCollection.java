@@ -1,8 +1,5 @@
 package teaching;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import teaching.iterator.StudentIterator;
 
 public class FullStudentCollection {

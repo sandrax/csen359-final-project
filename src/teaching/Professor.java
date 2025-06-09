@@ -28,7 +28,7 @@ public class Professor {
     private StirringRod rod;
     private Vial vial;
 
-    private final GradingDatabase gradingPortal ;
+    private final GradingDatabase gradingPortal;
 
     public Professor(String name, Burner burner, Cauldron cauldron, StirringRod rod, Vial vial) {
         this.name = name;
