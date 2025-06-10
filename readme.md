@@ -19,7 +19,6 @@ This project simulates a magical potions class at Hogwarts, where you play as a 
 - **Singleton**: Used for the wand and grading database to ensure only one instance exists throughout the system. This allows consistent access and avoids duplication of key objects.
 - **Builder**: Constructs potions step by step, allowing the configuration of different ingredients and procedures for each potion in a controlled manner.
 - **Prototype**: Enables efficient duplication of ingredients like aconite or moonstone without recreating them from scratch.
-- **Null Object**: Returns a NullPotion when no valid potion is available, avoiding null checks and runtime errors.
 
 ### Structural
 - **Decorator**: Dynamically adds preparation details (like diced or powdered) to ingredients without changing their core structure.
@@ -37,3 +36,5 @@ This project simulates a magical potions class at Hogwarts, where you play as a 
 - **Template Method**: Defines a preset process for professors to demonstrate potion making, ensuring consistent execution of shared steps.
 - **Iterator**: Allows uniform traversal through student records to calculate grades, regardless of collection type.
 - **Chain of Responsibility**: Handles student disciplinary reports by passing them up the staff hierarchy until someone can address them.
+- **Null**: Returns a NullPotion when no valid potion is available, avoiding null checks and runtime errors.
+- **Visitor**: Run diagnostics on equipment to evaluate magical stability as an additional operation that does not modify the equipment themselves.
